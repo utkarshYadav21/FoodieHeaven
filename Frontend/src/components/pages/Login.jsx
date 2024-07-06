@@ -1,7 +1,46 @@
-import React from "react";
+import React ,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
+import { API } from "../utils/ApiUrls";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    let user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await fetch(`${API}/login`, {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      response = await response.json();
+      console.log(response);
+      if (response.status === "success") {
+        toast.success("Logged in successfully");
+        localStorage.setItem("user", JSON.stringify(response.user));
+        localStorage.setItem("token", response.token);
+        navigate("/");
+      } else {
+        toast.err(response.message);
+      }
+    } catch (err) {
+      toast.error("Login failed");
+      console.error(err);
+    }
+  };
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center px-5 py-5">
       <div
@@ -18,7 +57,6 @@ const Login = () => {
               <p className="mt-4">Enter your information to Log In</p>
             </div>
             <div>
-              
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
                   <label htmlFor="email" className="text-xs font-semibold px-1">
@@ -29,6 +67,8 @@ const Login = () => {
                       <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       id="email"
                       type="email"
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-amber-500"
@@ -50,6 +90,8 @@ const Login = () => {
                       <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       id="password"
                       type="password"
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-amber-500"
@@ -60,13 +102,18 @@ const Login = () => {
               </div>
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
-                  <button className="block w-full max-w-xs mx-auto bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold">
+                  <button
+                    onClick={login}
+                    className="block w-full max-w-xs mx-auto bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold"
+                  >
                     Log In
                   </button>
                 </div>
               </div>
               <div className="text-center text-amber-600">
-                <Link to="/signup"><a>Don't have an account? Sign up.</a></Link>
+                <Link to="/signup">
+                  <a>Don't have an account? Sign up.</a>
+                </Link>
               </div>
             </div>
           </div>

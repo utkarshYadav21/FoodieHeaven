@@ -1,25 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API } from "../utils/ApiUrls";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 const Register = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
+  useEffect(() => {
+    let user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  },[]);
 
-  // const register = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch(`${API}/signup`, {
-  //       method: "POST",
-  //       body: JSON.stringify({ name, email, password }),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     console.log(response.data);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  const register = async (e) => {
+    e.preventDefault();
+    try {
+      let response = await fetch(`${API}/signup`, {
+        method: "POST",
+        body: JSON.stringify({ name, email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      response = await response.json();
+      console.log(response);
+      if (response.status === "success") {
+        toast.success("User created successfully");
+        navigate("/login");
+      } else {
+        toast.error(response.message);
+      }
+    } catch (err) {
+      toast.error("User registration failed");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center px-5 py-5">
@@ -103,7 +122,7 @@ const Register = () => {
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
                   <button
-                    // onClick={register}
+                    onClick={register}
                     className="block w-full max-w-xs mx-auto bg-amber-500 hover:bg-amber-700  text-white rounded-lg px-3 py-3 font-semibold"
                   >
                     Sign Up

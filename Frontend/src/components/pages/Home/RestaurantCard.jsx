@@ -1,9 +1,14 @@
 import React from "react";
 import { FaRegHeart, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantCard = () => {
+  const navigate=useNavigate()
+  const handleClick=()=>{
+    navigate("/restaurantName")
+  }
   return (
-    <div className="w-96 h-[22.5rem] shadow-lg shadow-slate-300 transition duration-150 transform hover:scale-105 ">
+    <div onClick={handleClick} className="w-96 h-[22.5rem] shadow-lg shadow-slate-300 transition duration-150 transform hover:scale-105 cursor-pointer">
       <img
         src="/26-5adafa56c6733500373c3cf5.jpg"
         className="w-96 h-60 rounded-tl-xl rounded-tr-xl"

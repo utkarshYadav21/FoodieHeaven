@@ -6,15 +6,18 @@ import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Home from "./components/pages/Home/Home";
 import Restaurant from "./components/pages/Restaurant/Restaurant";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element=<Home /> />
-          <Route path="/restaurant" element=<Restaurant /> />
+          <Route path="/restaurantName" element=<Restaurant /> />
           <Route path="/login" element=<Login /> />
           <Route path="/signup" element=<Register /> />
         </Routes>
