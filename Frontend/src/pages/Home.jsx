@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import CardsList from "./CardsList";
+import CardsList from "../components/Home/CardsList";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");

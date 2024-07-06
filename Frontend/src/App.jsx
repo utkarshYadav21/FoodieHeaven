@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
-import Navbar from "./components/common/Navbar";
-import Footer from "./components/common/Footer";
-import Home from "./components/pages/Home/Home";
-import Restaurant from "./components/pages/Restaurant/Restaurant";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Navbar from "./common/Navbar";
+import Footer from "./common/Footer";
+import Home from "./pages/Home";
+import Restaurant from "./pages/Restaurant";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

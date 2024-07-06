@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import Menu from "./Menu";
-import Reviews from "./Reviews";
+import Menu from "../components/Restaurant/Menu";
+import Reviews from "../components/Restaurant/Reviews";
 
 const Restaurant = () => {
   const [selected, setSelected] = useState("Menu");
