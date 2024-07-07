@@ -35,7 +35,7 @@ const Restaurant = () => {
   };
 
   return (
-    <div>
+    <div className="pb-20">
       <img
         src="/Savage-2019-top-50-busy-restaurant.jpg"
         className="w-4/5 h-[30rem] mx-auto mt-8 rounded-xl"

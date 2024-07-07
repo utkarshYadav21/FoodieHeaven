@@ -8,7 +8,7 @@ const Home = () => {
   const categories = ["All", "Pizza", "Burgers", "Breakfast", "Snacks"];
 
   return (
-    <div>
+    <div className="pb-20">
       <div>
         <img
           src="https://www.foodora.com/wp-content/uploads/2023/05/foodora-about-header-1.jpg"
