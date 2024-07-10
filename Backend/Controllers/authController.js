@@ -1,4 +1,5 @@
-const User = require("../models/User");
+const Cart = require("../Models/Cart");
+const User = require("../Models/User");
 const jwt = require("jsonwebtoken");
 
 const maxAge = 30 * 24 * 60 * 60;
@@ -15,8 +16,13 @@ module.exports.signup_post = async (req, res) => {
         message: "User already exists",
       });
     }
-    
+
     user = new User(req.body);
+    const cart = new Cart({
+      userId: req.body.email,
+    });
+    await cart.save();
+    user.cart = cart._id;
     await user.save();
     const token = createToken(user._id);
     res.status(201).json({
@@ -36,8 +42,13 @@ module.exports.signup_post = async (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email }).select('+password');
-    if (user && await user.correctPassword(req.body.password, user.password)) {
+    const user = await User.findOne({ email: req.body.email }).select(
+      "+password"
+    );
+    if (
+      user &&
+      (await user.correctPassword(req.body.password, user.password))
+    ) {
       const token = createToken(user._id);
       res.status(200).json({
         status: "success",
