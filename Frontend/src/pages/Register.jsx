@@ -19,7 +19,7 @@ const Register = () => {
   const register = async (e) => {
     e.preventDefault();
     try {
-      let response = await fetch(`${API}/signup`, {
+      let response = await fetch(`${API}/users/signup`, {
         method: "POST",
         body: JSON.stringify({ name, email, password }),
         headers: {

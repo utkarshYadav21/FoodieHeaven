@@ -19,7 +19,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      let response = await fetch(`${API}/login`, {
+      let response = await fetch(`${API}/users/login`, {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: {
