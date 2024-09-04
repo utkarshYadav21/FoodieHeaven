@@ -19,7 +19,7 @@ const Navbar = () => {
       <div>
         {user ? (
           <div className="flex items-center gap-6">
-            <FaShoppingCart className="text-gray-500 text-2xl cursor-pointer hover:text-amber-500" />
+            <FaShoppingCart className="text-gray-500 text-2xl cursor-pointer hover:text-amber-500" onClick={()=>navigate("/cart")} />
             <div
               onClick={() => navigate("/profile")}
               className="flex items-center cursor-pointer hover:text-amber-500"

@@ -9,6 +9,7 @@ import Restaurant from "./pages/Restaurant";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
@@ -18,10 +19,12 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element=<Home /> />
-          <Route path="/restaurantName" element=<Restaurant /> />
+          <Route path="/:resId" element=<Restaurant /> />
           <Route path="/profile" element=<Profile /> />
           <Route path="/login" element=<Login /> />
           <Route path="/signup" element=<Register /> />
+          <Route path="/cart" element=<Cart /> />
+
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import CardsList from "../components/Home/CardsList";
+import { API } from "../utils/ApiUrls";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
+  const [restaurants,setRestaurants]=useState([])
   const categories = ["All", "Pizza", "Burgers", "Breakfast", "Snacks"];
+
+  const fetchData = async () => {
+    let response = await fetch(`${API}/restaurant/get`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    response = await response.json();
+    if(response.status==="Success"){
+      setRestaurants(response.restaurants)
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="pb-20">
@@ -45,7 +63,7 @@ const Home = () => {
           </ul>
         </div>
         <div className="mt-6">
-            <CardsList />
+            <CardsList restaurants={restaurants}/>
         </div>
       </div>
     </div>

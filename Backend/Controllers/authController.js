@@ -24,6 +24,7 @@ module.exports.signup_post = async (req, res) => {
     await cart.save();
     user.cart = cart._id;
     await user.save();
+
     const token = createToken(user._id);
     res.status(201).json({
       status: "success",
@@ -31,8 +32,7 @@ module.exports.signup_post = async (req, res) => {
       token,
     });
   } catch (err) {
-    console.log(err.message);
-    res.status(400).json({
+    res.status(500).json({
       status: "failed",
       message: "Registration failed",
       error: err.message,
@@ -62,11 +62,44 @@ module.exports.login_post = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({
       status: "failed",
       message: "Login failed",
       error: err.message,
     });
+  }
+};
+module.exports.update_post = async (req, res) => {
+  const { email, newEmail, newName } = req.body;
+
+  try {
+    // Find the user by email
+    let user = await User.findOne({ email: email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "Error", message: "User not found" });
+    }
+
+    // Update the user's information
+    user.email = newEmail || user.email; // Update email if provided
+    user.name = newName || user.name; // Update name if provided
+
+    // Save the updated user
+    await user.save();
+
+    res
+      .status(200)
+      .json({
+        status: "Success",
+        message: "User updated successfully",
+        user: user,
+      });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ status: "failed", message: "An unexpected error occurred" });
   }
 };

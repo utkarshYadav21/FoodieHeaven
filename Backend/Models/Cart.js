@@ -1,15 +1,16 @@
-const  dishSchema=require( "./DishSchema");
+const dishSchema = require("./DishSchema");
 
 const mongoose = require("mongoose");
 
 const CartSchema = mongoose.Schema({
-  userId:{
-    type:String
+  userId: {
+    type: String,
   },
   dishes: [
     {
       dish: {
-        dishSchema
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Dishes", // Reference to the Dishes model
       },
       restaurant: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,4 +21,4 @@ const CartSchema = mongoose.Schema({
 });
 
 const Cart = mongoose.model("Cart", CartSchema);
-module.exports=Cart
+module.exports = Cart;

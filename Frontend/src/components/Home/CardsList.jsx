@@ -1,14 +1,13 @@
 import React from "react";
 import RestaurantCard from "./RestaurantCard";
 
-const CardsList = () => {
+const CardsList = ({ restaurants }) => {
+  console.log(restaurants);
   return (
     <div className="flex flex-wrap justify-evenly gap-y-10">
-      <RestaurantCard />
-      <RestaurantCard />
-      <RestaurantCard />
-      <RestaurantCard />
-      <RestaurantCard />
+      {restaurants.map((restaurant, index) => {
+        return <RestaurantCard key={index} restaurant={restaurant} />;
+      })}
     </div>
   );
 };

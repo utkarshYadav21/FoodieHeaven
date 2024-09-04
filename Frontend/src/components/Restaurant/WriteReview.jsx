@@ -1,17 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { API } from "../../utils/ApiUrls";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 const WriteReview = () => {
+  const {resId}=useParams()
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(0);
-
+  const [rating, setRating] = useState(0);
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    let u = localStorage.getItem("user");
+    if (u) {
+      u = JSON.parse(u);
+      setUser(u);
+    }
+  }, []);
   const handleReviewChange = (e) => {
     setReview(e.target.value);
   };
 
   const handleStarClick = (index) => {
-    if (stars === index + 1) setStars(0);
-    else setStars(index + 1);
+    if (rating === index + 1) setRating(0);
+    else setRating(index + 1);
+  };
+
+  const postReview = async () => {
+    try {
+      let response = await fetch(`${API}/review/post/${resId}`, {
+        method: "POST",
+        body: JSON.stringify({ review, rating, createdBy: user._id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      response = await response.json();
+      console.log(response);
+      if (response.status === "Success") {
+        toast.success("Review added successfully");
+      } else {
+        console.log(response.error);
+        toast.error(response.error);
+      }
+    } catch (err) {
+      toast.error("Fetch failed");
+      console.error(err);
+    }
   };
 
   return (
@@ -31,7 +65,7 @@ const WriteReview = () => {
               <FaStar
                 key={index}
                 className={`cursor-pointer text-xl ${
-                  index < stars ? "text-amber-500" : "text-gray-400"
+                  index < rating ? "text-amber-500" : "text-gray-400"
                 }`}
                 onClick={() => {
                   handleStarClick(index);
@@ -39,7 +73,10 @@ const WriteReview = () => {
               />
             ))}
           </div>
-          <button className="bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-2 font-semibold">
+          <button
+            className="bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-2 font-semibold"
+            onClick={postReview}
+          >
             Add review
           </button>
         </div>

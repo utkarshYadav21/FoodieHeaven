@@ -1,17 +1,24 @@
 const mongoose=require("mongoose")
 
-module.exports.DishSchema = mongoose.Schema({
+const DishSchema = mongoose.Schema({
+  image:{
+    type:String,
+    required:true
+  },
   name: {
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
+  type: {
+    type: String,
     required: true,
-    default:1
   },
   price: {
     type: Number,
     required: true,
   },
 });
+
+const Dishes = mongoose.model("Dishes", DishSchema);
+module.exports = Dishes;
+

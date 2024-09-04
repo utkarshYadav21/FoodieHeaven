@@ -1,5 +1,3 @@
-const dishSchema = require("./DishSchema");
-
 const mongoose = require("mongoose");
 
 const RestaurantSchema = mongoose.Schema({
@@ -19,7 +17,14 @@ const RestaurantSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  dishes: [dishSchema],
+  dishes: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Dishes', // Reference to the Dishes model
+  }],
+  reviews:[{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Review', // Reference to the review model
+  }],
   location: {
     type: String,
     required: true,
@@ -29,7 +34,11 @@ const RestaurantSchema = mongoose.Schema({
       type: String,
     },
   ],
+  resType:{
+    type:String,
+    required:true
+  }
 });
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
-module.exports=Restaurant
+module.exports = Restaurant;

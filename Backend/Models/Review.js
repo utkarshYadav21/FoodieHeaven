@@ -13,10 +13,6 @@ const ReviewSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-  restaurant: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Restaurant",
-  },
   date: {
     type: Date,
     default: Date.now,

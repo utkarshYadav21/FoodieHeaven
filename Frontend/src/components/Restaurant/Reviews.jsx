@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReviewCard from "./ReviewCard";
 import WriteReview from "./WriteReview";
+import { API } from "../../utils/ApiUrls";
 
-const Reviews = () => {
+const Reviews = ({ reviews }) => {
   return (
     <div>
       <WriteReview />
-      <div className="flex flex-wrap gap-x-7 gap-y-4 mt-10">
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
-        <ReviewCard />
+      <div className=" gap-x-7 gap-y-4 mt-10 grid  grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+        {reviews.map((review, index) => {
+          return <ReviewCard review={review} key={index} />;
+        })}
       </div>
     </div>
   );
