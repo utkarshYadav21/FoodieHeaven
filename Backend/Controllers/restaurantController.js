@@ -8,7 +8,7 @@ module.exports.restaurant_add = async (req, res) => {
 
     console.log("Saved Restaurant:", restaurant);
 
-    res.status(200).json({ status: "Success", restaurant: restaurant });
+    return res.status(200).json({ status: "Success", restaurant: restaurant });
   } catch (err) {
     console.log(err.message);
   }
@@ -32,7 +32,7 @@ module.exports.add_dish = async (req, res) => {
 
     console.log("Saved Dish:", dish);
 
-    res.status(200).json({ status: "Success", dish: dish });
+    return res.status(200).json({ status: "Success", dish: dish });
   } catch (err) {
     res.status(500).json({
       status: "failed",
@@ -47,10 +47,10 @@ module.exports.restaurant_get = async (req, res) => {
 
     console.log("List of all the restaurants", restaurants);
 
-    res.status(200).json({ status: "Success", restaurants: restaurants });
+    return res.status(200).json({ status: "Success", restaurants: restaurants });
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       message: err.message,
     });
@@ -71,10 +71,10 @@ module.exports.single_restaurant = async (req, res) => {
 
     console.log("Restaurant:", restaurant);
 
-    res.status(200).json({ status: "Success", restaurant: restaurant });
+    return res.status(200).json({ status: "Success", restaurant: restaurant });
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       message: err.message,
     });

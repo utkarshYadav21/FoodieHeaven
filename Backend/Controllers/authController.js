@@ -26,13 +26,13 @@ module.exports.signup_post = async (req, res) => {
     await user.save();
 
     const token = createToken(user._id);
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       user: user,
       token,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       message: "Registration failed",
       error: err.message,
@@ -50,19 +50,19 @@ module.exports.login_post = async (req, res) => {
       (await user.correctPassword(req.body.password, user.password))
     ) {
       const token = createToken(user._id);
-      res.status(200).json({
+      return res.status(200).json({
         status: "success",
         user: user,
         token,
       });
     } else {
-      res.status(401).json({
+      return res.status(401).json({
         status: "failed",
         message: "Invalid email or password",
       });
     }
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       message: "Login failed",
       error: err.message,
@@ -89,7 +89,7 @@ module.exports.update_post = async (req, res) => {
     // Save the updated user
     await user.save();
 
-    res
+    return res
       .status(200)
       .json({
         status: "Success",
@@ -98,7 +98,7 @@ module.exports.update_post = async (req, res) => {
       });
   } catch (err) {
     console.error(err.message);
-    res
+    return res
       .status(500)
       .json({ status: "failed", message: "An unexpected error occurred" });
   }

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 const WriteReview = () => {
-  const {resId}=useParams()
+  const { resId } = useParams();
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const [user, setUser] = useState("");

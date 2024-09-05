@@ -4,7 +4,8 @@ import { MdDelete } from "react-icons/md";
 import Menu from "../components/Restaurant/Menu";
 import Reviews from "../components/Restaurant/Reviews";
 import { API } from "../utils/ApiUrls";
-import { json, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Restaurant = () => {
   const { resId } = useParams();
@@ -15,7 +16,7 @@ const Restaurant = () => {
 
   useEffect(() => {
     getRestaurant();
-  
+
     // Load orders from sessionStorage when the component mounts
     const storedOrders = sessionStorage.getItem("orders");
     if (storedOrders) {
@@ -73,8 +74,64 @@ const Restaurant = () => {
 
   const addToOrders = (newDish) => {
     const quantity = 1;
-    const newOrders = [...orders, { ...newDish, quantity }];
-    updateOrders(newOrders);
+    const restaurantName = rest.name;
+    console.log(newDish);
+    console.log(orders);
+    if (orders.length !== 0) {
+      orders.forEach((order) => {
+        console.log(order);
+        if (newDish._id === order._id) {
+          order.quantity++;
+          updateOrders(orders);
+        } else {
+          const newOrders = [
+            ...orders,
+            { ...newDish, quantity, restaurantName },
+          ];
+          updateOrders(newOrders);
+        }
+      });
+    } else {
+      const newOrders = [...orders, { ...newDish, quantity, restaurantName }];
+      updateOrders(newOrders);
+    }
+  };
+
+  const addToCart = async () => {
+    try {
+      let user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        toast.error("Login First");
+        return;
+      }
+      let dishes = [];
+
+      orders.map((order) => {
+        let dishInfo = {
+          dish: order._id, // Set dish ID
+          quantity: order.quantity, // Set quantity
+        };
+        dishes = [...dishes, dishInfo]; // Add new dishInfo to the dishes array
+      });
+      let response = await fetch(`${API}/cart/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user._id, resId, dishes }),
+      });
+      response = await response.json();
+      console.log(response);
+      if (response.status === "Success") {
+        toast.success("Items Added to cart");
+        sessionStorage.removeItem("orders");
+        setOrders([]);
+      } else {
+        toast.error(response.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -202,7 +259,10 @@ const Restaurant = () => {
                   ))}
                 </div>
                 <div className="pt-3 mt-3 border-t border-gray-400 flex justify-center">
-                  <button className="bg-amber-500 w-3/4 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold">
+                  <button
+                    onClick={addToCart}
+                    className="bg-amber-500 w-3/4 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold"
+                  >
                     Add to Cart
                   </button>
                 </div>

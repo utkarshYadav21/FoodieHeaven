@@ -19,9 +19,9 @@ module.exports.review_post = async (req, res) => {
 
     console.log("Saved Review:", review);
 
-    res.status(200).json({ status: "Success", review: review });
+    return res.status(200).json({ status: "Success", review: review });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       error: err.message,
     });  }
