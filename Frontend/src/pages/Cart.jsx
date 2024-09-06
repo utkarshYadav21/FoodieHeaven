@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { API } from "../utils/ApiUrls";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [orders, setOrders] = useState([]);
   const [res, setRes] = useState("");
+  const navigate = useNavigate("");
+
   useEffect(() => {
     getCart();
   }, []);
@@ -46,7 +49,7 @@ const Cart = () => {
       return newOrders;
     });
   };
-  
+
   const decreaseQuantity = (ind) => {
     setOrders((prevOrders) => {
       const newOrders = prevOrders.map((order, index) =>
@@ -57,12 +60,6 @@ const Cart = () => {
       changeQuantity(newOrders[ind]); // Call changeQuantity with updated order
       return newOrders;
     });
-  };
-  
-
-  const deleteOrder = (ind) => {
-    const newOrders = orders.filter((order, index) => index !== ind);
-    setOrders(newOrders);
   };
 
   const changeQuantity = async (order) => {
@@ -180,40 +177,51 @@ const Cart = () => {
         })}
       </div>
       <div className="w-[88%]">
-        <div className="sm:w-[55%] md:w-[50%] lg:w-[40%] shadow-lg shadow-gray-300 py-3">
-          <div className="flex flex-col justify-evenly gap-4">
-            <div className="flex justify-between items-center mx-8">
-              <h3 className="text-base font-medium">Your Total</h3>
-              <p>
-                Rs.{" "}
-                {orders.reduce(
-                  (total, order) => total + order.dish.price * order.quantity,
-                  0
-                )}
-              </p>
+        {orders.length !== 0 && (
+          <div className="sm:w-[55%] md:w-[50%] lg:w-[40%] shadow-lg shadow-gray-300 py-3">
+            <div className="flex flex-col justify-evenly gap-4">
+              <div className="flex justify-between items-center mx-8">
+                <h3 className="text-base font-medium">Your Total</h3>
+                <p>
+                  Rs.{" "}
+                  {orders.reduce(
+                    (total, order) => total + order.dish.price * order.quantity,
+                    0
+                  )}
+                </p>
+              </div>
+              <div className="flex justify-between items-center mx-8">
+                <h3 className="text-base font-medium">Delivery Fee</h3>
+                <p>Rs. 40</p>
+              </div>
+              <div className="flex justify-between items-center mx-8">
+                <h3 className="text-xl font-bold">Your Order</h3>
+                <p>
+                  Rs.{" "}
+                  {orders.reduce(
+                    (total, order) => total + order.dish.price * order.quantity,
+                    0
+                  ) + 40}
+                </p>
+              </div>
             </div>
-            <div className="flex justify-between items-center mx-8">
-              <h3 className="text-base font-medium">Delivery Fee</h3>
-              <p>Rs. 40</p>
-            </div>
-            <div className="flex justify-between items-center mx-8">
-              <h3 className="text-xl font-bold">Your Order</h3>
-              <p>
-                Rs.{" "}
-                {orders.reduce(
-                  (total, order) => total + order.dish.price * order.quantity,
-                  0
-                ) + 40}
-              </p>
-            </div>
-          </div>
 
-          <div className="pt-3 mt-3 border-t border-gray-400 flex justify-center">
-            <button className="bg-amber-500 w-3/4 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold">
-              Checkout
-            </button>
+            <div className="pt-3 mt-3 border-t border-gray-400 flex justify-center">
+              <button
+                onClick={() => {
+                  const total = orders.reduce(
+                    (total, order) => total + order.dish.price * order.quantity,
+                    0
+                  );
+                  navigate("/orders", { state: { total } });
+                }}
+                className="bg-amber-500 w-3/4 hover:bg-amber-700 text-white rounded-lg px-3 py-3 font-semibold"
+              >
+                Checkout
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
