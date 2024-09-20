@@ -60,7 +60,7 @@ const Restaurant = () => {
         },
       });
       response = await response.json();
-      console.log(response);
+      console.log("sdsds",response);
       if (response.status === "Success") {
         setRest(response.restaurant);
         console.log("Restaurant fetched");

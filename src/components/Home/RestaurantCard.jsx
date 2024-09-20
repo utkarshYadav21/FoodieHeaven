@@ -3,9 +3,10 @@ import { FaRegHeart, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const RestaurantCard = ({ restaurant }) => {
+  console.log(restaurant.RestaurntDetails)
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/${restaurant._id}`);
+    navigate(`/${restaurant.RestaurntDetails._id}`);
   };
   return (
     <div
@@ -24,14 +25,14 @@ const RestaurantCard = ({ restaurant }) => {
         <div className="flex justify-between items-center mx-6 text-sm mt-3 font-semibold">
           <h3 className=" bg-slate-300 px-3 py-1 rounded-2xl">
             {" "}
-            {restaurant.location}{" "}
+            {restaurant.RestaurntDetails.location}{" "}
           </h3>
           <h3 className=" flex items-center gap-2">
             4 <FaStar className="text-amber-600 text-xl" />
           </h3>
         </div>
         <div className="flex gap-3 mx-6 text-sm mt-3 font-semibold">
-          {restaurant.cuisines.map((cuisine, index) => {
+          {restaurant.RestaurntDetails.cuisines.map((cuisine, index) => {
             return (
               <h3 className=" bg-slate-300 px-3 py-1 rounded-2xl" key={index}>
                 {cuisine}
