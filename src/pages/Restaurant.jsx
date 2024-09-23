@@ -60,7 +60,7 @@ const Restaurant = () => {
         },
       });
       response = await response.json();
-      console.log("sdsds",response);
+      console.log(response);
       if (response.status === "Success") {
         setRest(response.restaurant);
         console.log("Restaurant fetched");
@@ -75,22 +75,15 @@ const Restaurant = () => {
   const addToOrders = (newDish) => {
     const quantity = 1;
     const restaurantName = rest.name;
-    console.log(newDish);
-    console.log(orders);
-    if (orders.length !== 0) {
-      orders.forEach((order) => {
-        console.log(order);
-        if (newDish._id === order._id) {
-          order.quantity++;
-          updateOrders(orders);
-        } else {
-          const newOrders = [
-            ...orders,
-            { ...newDish, quantity, restaurantName },
-          ];
-          updateOrders(newOrders);
-        }
-      });
+
+    const existingOrder = orders.find((order) => order._id === newDish._id);
+    if (existingOrder) {
+      const updatedOrders = orders.map((order) =>
+        order._id === newDish._id
+          ? { ...order, quantity: order.quantity + 1 }
+          : order
+      );
+      updateOrders(updatedOrders);
     } else {
       const newOrders = [...orders, { ...newDish, quantity, restaurantName }];
       updateOrders(newOrders);
@@ -106,7 +99,7 @@ const Restaurant = () => {
       }
       let dishes = [];
 
-      orders.map((order) => {
+      orders.forEach((order) => {
         let dishInfo = {
           dish: order._id, // Set dish ID
           quantity: order.quantity, // Set quantity
@@ -133,6 +126,18 @@ const Restaurant = () => {
       console.error(err);
     }
   };
+
+  // Ensure rest.reviews exists before calculating ratings
+  let totalRating = 0;
+  let reviewCount = rest.reviews ? rest.reviews.length : 0;
+
+  if (rest.reviews) {
+    rest.reviews.forEach((rev) => {
+      totalRating += rev.rating;
+    });
+  }
+
+  let averageRating = reviewCount > 0 ? totalRating / reviewCount : 0;
 
   return (
     <div className="pb-20">
@@ -162,7 +167,8 @@ const Restaurant = () => {
                           {rest.location}
                         </h3>
                         <h3 className=" flex items-center gap-2">
-                          4 <FaStar className="text-amber-600 text-xl" />
+                          {averageRating.toFixed(1)}{" "}
+                          <FaStar className="text-amber-600 text-xl" />
                         </h3>
                       </div>
                       <div className="flex gap-3 text-sm mt-3 font-semibold">

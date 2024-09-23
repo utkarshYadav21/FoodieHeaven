@@ -3,6 +3,7 @@ import WriteReview from "./WriteReview";
 import { FaStar, FaUser } from "react-icons/fa";
 
 const Reviews = ({ reviews }) => {
+  console.log(reviews)
   return (
     <div>
       <WriteReview />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { API } from "../utils/ApiUrls";
 import { useNavigate } from "react-router-dom";
+import cartImage from "/54b13147340145.Y3JvcCw0MDUsMzE3LDAsNDI.png";
 
 const Cart = () => {
   const [orders, setOrders] = useState([]);
@@ -177,7 +178,7 @@ const Cart = () => {
         })}
       </div>
       <div className="w-[88%]">
-        {orders.length !== 0 && (
+        {orders.length > 0 ? (
           <div className="sm:w-[55%] md:w-[50%] lg:w-[40%] shadow-lg shadow-gray-300 py-3">
             <div className="flex flex-col justify-evenly gap-4">
               <div className="flex justify-between items-center mx-8">
@@ -221,6 +222,9 @@ const Cart = () => {
               </button>
             </div>
           </div>
+        ) : (
+          <div className="flex w-[110%] h-[100%] justify-center">
+          <img src={cartImage} /></div>
         )}
       </div>
     </div>
