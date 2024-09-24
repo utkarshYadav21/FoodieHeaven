@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,25 +7,21 @@ import { API } from "../../utils/ApiUrls";
 const RestaurantCard = ({ restaurant }) => {
   const navigate = useNavigate();
   let user = JSON.parse(localStorage.getItem("user"));
+  const [liked, setLiked] = useState(false); // Use state to manage the liked state
+
   const handleClick = () => {
     navigate(`/${restaurant.RestaurntDetails._id}`);
   };
-  let liked = false;
+
   useEffect(() => {
-    liked = true;
-  }, [user]);
-  if (user) {
-    user.favRestaurants.forEach((res) => {
-      // Compare the two IDs only if both are valid
-      if (
-        res &&
-        restaurant._id &&
-        res.toString() === restaurant._id.toString()
-      ) {
-        liked = true;
-      }
-    });
-  }
+    if (user) {
+      // Check if the restaurant is already in the user's favorites
+      const isFav = user.favRestaurants.some(
+        (res) => res && res.toString() === restaurant._id.toString()
+      );
+      setLiked(isFav);
+    }
+  }, [user, restaurant._id]); // Run this effect when user or restaurant changes
 
   const addToFav = async () => {
     try {
@@ -45,6 +41,7 @@ const RestaurantCard = ({ restaurant }) => {
       console.log(response);
       if (response.status === "success") {
         localStorage.setItem("user", JSON.stringify(response.user));
+        setLiked(true); // Update the liked state
         toast.success("Restaurant added to favourites");
       } else {
         toast.error(response.message);
@@ -55,7 +52,6 @@ const RestaurantCard = ({ restaurant }) => {
   };
 
   const removeFavRest = async () => {
-    console.log("sasa");
     try {
       let response = await fetch(`${API}/fav/remove`, {
         method: "POST",
@@ -68,6 +64,7 @@ const RestaurantCard = ({ restaurant }) => {
       console.log(response);
       if (response.status === "Success") {
         localStorage.setItem("user", JSON.stringify(response.user));
+        setLiked(false); // Update the liked state
         toast.success("Restaurant removed from favourites");
       } else {
         toast.error(response.message);
