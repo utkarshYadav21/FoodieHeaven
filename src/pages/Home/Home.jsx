@@ -1,12 +1,15 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import CardsList from "../components/Home/CardsList";
-import { API } from "../utils/ApiUrls";
+import CardsList from "../../components/Home/CardsList";
+import { API } from "../../utils/ApiUrls";
+import SliderComponent from "../../components/Home/SliderComponent";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [restaurants,setRestaurants]=useState([])
+  const [restaurants, setRestaurants] = useState([]);
   const categories = ["All", "Pizza", "Burgers", "Breakfast", "Snacks"];
+  const [fav, setFav] = useState([]);
+  let user = JSON.parse(localStorage.getItem("user"));
 
   const fetchData = async () => {
     let response = await fetch(`${API}/restaurant/get`, {
@@ -16,13 +19,27 @@ const Home = () => {
       },
     });
     response = await response.json();
-    if(response.status==="Success"){
-      setRestaurants(response.restaurants)
+    if (response.status === "Success") {
+      setRestaurants(response.restaurants);
+    }
+  };
+  const fetchFav = async () => {
+    console.log(user,user._id)
+    let response = await fetch(`${API}/fav/${user._id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    response = await response.json();
+    if (response.status === "Success") {
+      setFav(response.restaurants);
     }
   };
 
   useEffect(() => {
     fetchData();
+    fetchFav();
   }, []);
 
   return (
@@ -63,7 +80,25 @@ const Home = () => {
           </ul>
         </div>
         <div className="mt-6">
-            <CardsList restaurants={restaurants}/>
+          <CardsList restaurants={restaurants} />
+        </div>
+      </div>
+      <div className="px-6 py-12 flex justify-between">
+        <div className="w-1/3 ">
+          <h2 className="text-4xl font-bold mb-2 text-gray-800 flex items-center">
+            <span className="mr-2">Favorites</span>
+            {/* Optional: Add decorative icon */}
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Your chosen restaurants are here to make you smile—it's like they
+            were made just for you!
+          </p>
+        </div>
+
+        <div className="w-full">
+          <SliderComponent
+            slides={fav}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { API } from "../utils/ApiUrls";
+import { API } from "../../utils/ApiUrls";
 import { useNavigate } from "react-router-dom";
 import cartImage from "/54b13147340145.Y3JvcCw0MDUsMzE3LDAsNDI.png";
 

@@ -1,16 +1,16 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/User/Login";
+import Register from "./pages/User/Register";
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
-import Home from "./pages/Home";
-import Restaurant from "./pages/Restaurant";
+import Home from "./pages/Home/Home";
+import Restaurant from "./pages/Restaurant/Restaurant";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Profile from "./pages/Profile";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import Profile from "./pages/User/Profile";
+import Cart from "./pages/Cart/Cart";
+import Checkout from "./pages/Cart/Checkout";
 
 const App = () => {
   return (

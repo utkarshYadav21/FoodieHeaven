@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { API } from "../utils/ApiUrls";
+import { API } from "../../utils/ApiUrls";
 
 const Profile = () => {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import Menu from "../components/Restaurant/Menu";
-import Reviews from "../components/Restaurant/Reviews";
-import { API } from "../utils/ApiUrls";
+import Menu from "../../components/Restaurant/Menu";
+import Reviews from "../../components/Restaurant/Reviews";
+import { API } from "../../utils/ApiUrls";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
