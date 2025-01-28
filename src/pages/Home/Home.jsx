@@ -7,7 +7,7 @@ import SliderComponent from "../../components/Home/SliderComponent";
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [restaurants, setRestaurants] = useState([]);
-  const categories = ["All", "Pizza", "Burgers", "Breakfast", "Snacks"];
+  const categories = ["All", "Indian", "Chinese", "Italian", "American"];
   const [fav, setFav] = useState([]);
   let user = JSON.parse(localStorage.getItem("user"));
 
@@ -24,7 +24,7 @@ const Home = () => {
     }
   };
   const fetchFav = async () => {
-    console.log(user,user._id)
+    console.log(user, user._id);
     let response = await fetch(`${API}/fav/${user._id}`, {
       method: "GET",
       headers: {
@@ -51,7 +51,7 @@ const Home = () => {
         />
       </div>
       <div className="mt-12">
-        <div className="flex justify-between items-center mx-10">
+        <div className="flex items-center mx-10">
           <h2 className="text-4xl font-bold">Restaurants</h2>
           <div className="flex items-center gap-3">
             <input
@@ -83,24 +83,24 @@ const Home = () => {
           <CardsList restaurants={restaurants} />
         </div>
       </div>
-      <div className="px-6 py-12 flex justify-between">
-        <div className="w-1/3 ">
-          <h2 className="text-4xl font-bold mb-2 text-gray-800 flex items-center">
-            <span className="mr-2">Favorites</span>
-            {/* Optional: Add decorative icon */}
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Your chosen restaurants are here to make you smile—it's like they
-            were made just for you!
-          </p>
-        </div>
+      {fav.length > 0 && (
+        <div className="mt-16 px-10  flex justify-start gap-4 w-full">
+          <div className="w-1/5 ">
+            <h2 className="text-4xl font-bold mb-2 text-gray-800 flex items-center">
+              <span className="mr-2">Favorites</span>
+              {/* Optional: Add decorative icon */}
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Your chosen restaurants are here to make you smile—it's like they
+              were made just for you!
+            </p>
+          </div>
 
-        <div className="w-full">
-          <SliderComponent
-            slides={fav}
-          />
+          <div className="w-4/5">
+            <SliderComponent slides={fav} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Profile = () => {
     try {
       let response = await fetch(`${API}/users/update`, {
         method: "POST",
-        body: JSON.stringify({ newName:name, newEmail, email }),
+        body: JSON.stringify({ newName: name, newEmail, email }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -81,15 +81,10 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="w-[700px] md:w-[500px] p-4 shadow-lg rounded-lg mt-6 text-gray-500 bg-white">
-            <div className="flex justify-around">
-              <button className="bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-2 font-semibold w-1/3">
-                Favourites
-              </button>
-              <button className="bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-2 font-semibold w-1/3">
-                Orders
-              </button>
-            </div>
+          <div className="w-[700px] md:w-[500px] p-4 shadow-lg rounded-lg mt-6 text-gray-500 bg-white flex justify-center">
+            <button className="bg-amber-500 hover:bg-amber-700 text-white rounded-lg px-3 py-2 font-semibold w-1/3" onClick={()=>navigate("/orders")}>
+              Orders
+            </button>
           </div>
         </div>
       </div>

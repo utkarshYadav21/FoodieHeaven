@@ -13,23 +13,25 @@ import RestaurantCard from "./RestaurantCard";
 
 const SliderComponent = ({ slides }) => {
   return (
-    <div className="mx-auto w-full ">
-      <Swiper
-        modules={[Pagination, A11y, Mousewheel]}
-        style={{ width: "70%", height: "16.5rem" }}
-        spaceBetween={20} // Add some spacing between slides
-        slidesPerView="2" // Adjust to the number of visible slides
-        centeredSlides={false} // Change to true if you want centered alignment
-        mousewheel={{ forceToAxis: true }}
-        freeMode={true} // Allow free movement of slides
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index} className="cursor-pointer">
-            <RestaurantCard restaurant={slide} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+    <Swiper
+      modules={[Pagination, A11y, Mousewheel]}
+      style={{ width: "100%",paddingBottom:"1rem" }}
+      spaceBetween={20}
+      slidesPerView="auto"
+      centeredSlides={false}
+      mousewheel={{ forceToAxis: true }}
+      freeMode={true} 
+    >
+      {slides.map((slide, index) => (
+        <SwiperSlide
+          key={index}
+          className="cursor-pointer"
+          style={{ width: "26rem" }}
+        >
+          <RestaurantCard restaurant={slide} />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 
